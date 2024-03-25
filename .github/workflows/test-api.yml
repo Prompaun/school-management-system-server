@@ -1,0 +1,24 @@
+name: Test API
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test-api:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Make API Request
+        run: |
+          response=$(curl -X GET -H "Content-Type: application/json" https://school-management-system.azurewebsites.net/personnel-get-student-info?Student_ID=ID1)
+          echo "Response from API: $response"
+
+      - name: Check API Response
+        run: |
+          if [[ "$response" == *"expected_response"* ]]; then
+            echo "API is working correctly!"
+          else
+            echo "API is not working as expected!"
+            exit 1
+          fi
