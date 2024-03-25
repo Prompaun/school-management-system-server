@@ -8,12 +8,12 @@ const fs = require('fs');
 const mysql = require('mysql2');
 
 const app = express();
-const distPath = path.join(__dirname, '../client/dist');
+// const distPath = path.join(__dirname, '../client/dist');
 
 // ต่อ database หรือทำสิ่งอื่น ๆ ที่ต้องการกับค่า config
 
 app.use(cors())
-app.use(express.static(distPath));
+// app.use(express.static(distPath));
 app.use(express.json());
 // app.use(fileUpload());
 app.use(express.urlencoded({ extended: true }));
@@ -25,7 +25,7 @@ const connection = mysql.createConnection({
     database: process.env.DATABASE,
     password: process.env.PASSWORD,
     port: process.env.PORT_DB,
-    ssl: {ca: fs.readFileSync(path.join(__dirname, process.env.SSL))}
+    ssl: process.env.SSL
   });
 
 connection.connect((err) => {
@@ -45,12 +45,6 @@ app.use(Parent_api);
 app.use(Personnel_api);
 // app.use(Personnel_api);
 // app.use(Student_api);
-
-// app.get('/NewStudent_info', (req, res) => {
-//     // res.sendFile(`${__dirname}/index.html`);
-//     res.sendFile("C:/Users/promp/Downloads/School-project/client/src/pages/NewStudent_info.jsx");
-//   });
-
 
 //ser port
 const PORT = process.env.PORT || 8080;
